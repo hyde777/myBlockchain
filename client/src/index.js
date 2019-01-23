@@ -1,20 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
+import React from 'react';
+import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
+import Navbar from './Navbar';
+import Header from './Header';
+import Section from './Section';
+import Footer from './Footer';
 
-// import drizzle functions and contract artifact
-import { Drizzle, generateStore } from "drizzle";
-import MyStringStore from "./contracts/MyStringStore.json";
+ReactDOM.render(<Navbar />, document.getElementById('navbar'));
+ReactDOM.render(<Header />, document.getElementById('header'));
+ReactDOM.render(<Section />, document.getElementById('section'));
+ReactDOM.render(<Footer />, document.getElementById('footer'));
 
-// let drizzle know what contracts we want
-const options = { contracts: [MyStringStore] };
-
-// setup the drizzle store and drizzle
-const drizzleStore = generateStore(options);
-const drizzle = new Drizzle(options, drizzleStore);
-
-// pass in the drizzle instance
-ReactDOM.render(<App drizzle={drizzle} />, document.getElementById("root"));
 serviceWorker.unregister();
