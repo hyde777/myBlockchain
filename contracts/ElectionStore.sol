@@ -1,4 +1,4 @@
-pragma solidity 0.4.10;
+pragma solidity 0.4.22;
 import "./TurnStore.sol";
 
 contract ElectionStore {
@@ -6,7 +6,7 @@ contract ElectionStore {
     int maxTurn;
     mapping(int => TurnStore) turns;
 
-    function ElectionStore(int numberOfTurn) public {
+    constructor(int numberOfTurn) public {
         maxTurn = numberOfTurn;
         turns[currentTurn] = new TurnStore();
     }

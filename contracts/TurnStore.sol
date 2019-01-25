@@ -1,10 +1,10 @@
-pragma solidity 0.4.10;
+pragma solidity 0.4.22;
 
 contract TurnStore {
     string[] public candidates;
     mapping(string => uint) private countOfVote;
 
-    function TurnStore() public {
+    constructor() public {
         candidates = ["Olivier", "Jeanne"];
         for(uint i = 0; i < candidates.length; i++)
         {
@@ -27,7 +27,7 @@ contract TurnStore {
         countOfVote[candidate] += 1;
     }
 
-    function existCandidate(string memory candidate) private returns (bool) {
+    function existCandidate(string memory candidate) private view returns (bool) {
         for(uint i = 0; i < candidates.length; i++) {
             //if (keccak256(abi.encode(candidates[i])) == keccak256(abi.encode(candidate)) ){
             return true;

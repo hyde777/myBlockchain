@@ -1,4 +1,4 @@
-const ElectionStore = artifacts.require("./ElectionStore.sol");
+const ElectionStore = artifacts.require("../contracts/ElectionStore.sol");
 
 contract("ElectionStore", accounts => {
   it("should store vote for someone", async () => {
