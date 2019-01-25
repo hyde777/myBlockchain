@@ -3,7 +3,38 @@ require('bootstrap')
 require('jquery')
 
 class Section extends Component {
+  state = { candidates: [], loading: true, drizzleState: null, candidatesKey: null };
+
+  componentDidMount() {
+    const { drizzle } = this.props;
+
+    // subscribe to changes in the store
+    this.unsubscribe = drizzle.store.subscribe(() => {
+
+      // every time the store updates, grab the state from drizzle
+      const drizzleState = drizzle.store.getState();
+     
+      // save the `dataKey` to local component state for later reference
+      //this.setState({ dataKey });
+      // check to see if it's ready, if so, update local component state
+      if (drizzleState.drizzleStatus.initialized) {
+        const contract = drizzleState.contracts.ElectionStore;
+  
+        // let drizzle know we want to watch the `myString` method
+        const candidatesKey = contract.methods["candidates"].cacheCall();
+        this.setState({ loading: false, drizzleState, candidatesKey }); 
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
   render() {
+    if (this.state.loading) return "Loading Drizzle...";
+    const { ElectionStore } = this.state.drizzleState.contracts;
+    const candidates = ElectionStore.candidates[this.state.candidatesKey];
     return(
           <section className="content-section bg-light" id="resultat">
             <div className="container text-center">

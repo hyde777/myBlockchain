@@ -1,38 +1,22 @@
-pragma solidity ^0.5.0;
+pragma solidity 0.4.10;
+import "./TurnStore.sol";
 
 contract ElectionStore {
-    string[] public candidates;
-    mapping(string => uint) private countOfVote;
+    int currentTurn = 1;
+    int maxTurn;
+    mapping(int => TurnStore) turns;
 
-    constructor() public {
-        candidates = ["Olivier", "Jeanne"];
-        for(uint i = 0; i < candidates.length; i++)
-        {
-            countOfVote[candidates[i]] = 0;
-        }
+    function ElectionStore(int numberOfTurn) public {
+        maxTurn = numberOfTurn;
+        turns[currentTurn] = new TurnStore();
     }
     
-    function GetVoteFor(string memory candidate) public view returns (uint){
-        require(ExistCandidate(candidate), "He is not candidate");
-        return countOfVote[candidate];
+    function advanceTurn() public {
+        currentTurn += 1;
+        turns[currentTurn] = new TurnStore();
     }
 
-    function addCandidate(string memory candidate) public {
-        require(ExistCandidate(candidate) == false, "He is already a candidate");
-        countOfVote[candidate] = 0;
-    }
-
-    function VoteFor(string memory candidate) public {
-        require(ExistCandidate(candidate), "He is not a valid candidate");
-        countOfVote[candidate] += 1;
-    }
-
-    function ExistCandidate(string memory candidate) view public returns (bool) {
-        for(uint i = 0; i < candidates.length; i++) {
-            if (keccak256(abi.encode(candidates[i])) == keccak256(abi.encode(candidate)) ){
-                return true;
-            }
-        }
-        return false;
+    function getCurrentTurn() public returns(TurnStore) {
+        return new TurnStore();
     }
 }
